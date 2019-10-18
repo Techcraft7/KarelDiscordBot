@@ -3,7 +3,7 @@ String.prototype.replaceAll = function(search, replacement) {
     return target.split(search).join(replacement);
 };
 var Discord = require('discord.io');
-var logger = require('winston');
+var winston = require('winston');
 var auth = require('./auth.json');
 var colors = require('colors');
 var x = 0;
@@ -11,8 +11,12 @@ var y = 0;
 var dir = 0;
 var grid = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
 // Configure logger settings
-logger.remove(logger.transports.Console);
-logger.add(new logger.transports.File({ filename: 'log-' + new Date().toLocaleDateString().replaceAll('/', '-') + '.log',  options: {flags: 'w+'}}));
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.simple()
+});
+logger.remove(winston.transports.Console);
+logger.add(new winston.transports.File({ filename: 'log_' + new Date().toLocaleDateString().replaceAll('/', '-') + '.log',  options: {flags: 'w+'}}));
 logger.level = 'debug';
 function logInfo(text) {
 	console.log("[INFO]: ".green + text);
@@ -23,7 +27,7 @@ function logError(text) {
 	logger.error(text);
 }
 function logRainbow(text) {
-	console.log("[INFO]: ".green + text.rainbow);
+	console.log("[INFO!!!]: ".rainbow + text);
 	logger.info(text);
 }
 // Initialize Discord Bot
@@ -32,7 +36,7 @@ var bot = new Discord.Client({
    autorun: true
 });
 bot.on('ready', function (evt) {
-    logError('Connected');
+    logRainbow('Connected');
     logInfo('Logged in as: ' + bot.username + ' - (' + bot.id + ')');
 });
 bot.on('message', function (user, userID, channelID, message, evt) {
