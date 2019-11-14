@@ -37,7 +37,7 @@ var bot = new Discord.Client({
 });
 bot.on('ready', function (evt) {
     logRainbow('Connected');
-    logInfo('Logged in as: ' + bot.username + ' - (' + bot.id + ')');
+    logInfo('Logged in as: ' + bot.username);
 });
 bot.on('message', function (user, userID, channelID, message, evt) {
 	logInfo('Got message from ' + user  + ' in chanel ' + channelID + ': ' + message);
